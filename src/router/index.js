@@ -70,25 +70,25 @@ export const constantRoutes = [
     children: [
       {
         path: 'media',
-        component: () => import('@/views/education/index'),
+        component: () => import('@/views/education/media'),
         name: 'media',
         meta: { title: '图文',  affix: true }
       },
       {
-        path: 'auto',
-        component: () => import('@/views/education/index'),
-        name: 'auto',
+        path: 'audio',
+        component: () => import('@/views/education/audio'),
+        name: 'audio',
         meta: { title: '音频', affix: true }
       },
       {
         path: 'video',
-        component: () => import('@/views/education/index'),
+        component: () => import('@/views/education/video'),
         name: 'video',
         meta: { title: '视频', affix: true }
       },
       {
         path: 'column',
-        component: () => import('@/views/education/index'),
+        component: () => import('@/views/education/column'),
         name: 'column',
         meta: { title: '专栏', affix: true }
       },
@@ -96,9 +96,14 @@ export const constantRoutes = [
   },
   {
     path: '/user',
+    redirect:'/user/index',
     component: Layout,
-    name: 'user',
-    meta: { title: '用户', icon: 'user', noCache: true }
+    children:[{
+      path:'index',
+      component:()=>import('@/views/user/index'),
+      name: 'user',
+      meta: { title: '用户', icon: 'user', noCache: true },
+    }]
   },
  
 ]
@@ -108,61 +113,61 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 
-// export const asyncRoutes = [
-//   {
-//     path: '/permission',
-//     component: Layout,
-//     redirect: '/permission/page',
-//     alwaysShow: true, // will always show the root menu
-//     name: 'Permission',
-//     meta: {
-//       title: 'Permission',
-//       icon: 'lock',
-//       roles: ['admin', 'editor'] // you can set roles in root nav
-//     },
-//     children: [
-//       {
-//         path: 'page',
-//         component: () => import('@/views/permission/page'),
-//         name: 'PagePermission',
-//         meta: {
-//           title: 'Page Permission',
-//           roles: ['admin'] // or you can only set roles in sub nav
-//         }
-//       },
-//       {
-//         path: 'directive',
-//         component: () => import('@/views/permission/directive'),
-//         name: 'DirectivePermission',
-//         meta: {
-//           title: 'Directive Permission'
-//           // if do not set roles, means: this page does not require permission
-//         }
-//       },
-//       {
-//         path: 'role',
-//         component: () => import('@/views/permission/role'),
-//         name: 'RolePermission',
-//         meta: {
-//           title: 'Role Permission',
-//           roles: ['admin']
-//         }
-//       }
-//     ]
-//   },
+export const asyncRoutes = [
+  {
+    path: '/pay',
+    component: Layout,
+    redirect: '/pay/order',
+    alwaysShow: true, // will always show the root menu
+    name: 'pay',
+    meta: {
+      title: '交易',
+      icon: 'lock',
+      roles: ['admin', 'editor'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'order',
+        component: () => import('@/views/permission/page'),
+        name: 'order',
+        meta: {
+          title: '订单管理',
+          roles: ['admin'] // or you can only set roles in sub nav
+        }
+      },
+      {
+        path: 'assets',
+        component: () => import('@/views/permission/directive'),
+        name: 'assets',
+        meta: {
+          title: '资产管理'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
+      {
+        path: 'setting',
+        component: () => import('@/views/permission/role'),
+        name: 'setting',
+        meta: {
+          title: '资产管理',
+          roles: ['admin']
+        }
+      }
+    ]
+  },
 
-//   {
-//     path: '/icon',
-//     component: Layout,
-//     children: [
-//       {
-//         path: 'index',
-//         component: () => import('@/views/icons/index'),
-//         name: 'Icons',
-//         meta: { title: 'Icons', icon: 'icon', noCache: true }
-//       }
-//     ]
-//   },
+  // {
+  //   path: '/icon',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/icons/index'),
+  //       name: 'Icons',
+  //       meta: { title: 'Icons', icon: 'icon', noCache: true }
+  //     }
+  //   ]
+  // },
 
 //   /** when your routing map is too long, you can split it into small modules **/
 //   componentsRouter,
@@ -365,7 +370,7 @@ export const constantRoutes = [
 
 //   // 404 page must be placed at the end !!!
 //   { path: '*', redirect: '/404', hidden: true }
-// ]
+]
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
