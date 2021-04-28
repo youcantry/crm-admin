@@ -194,6 +194,8 @@ export default {
         limit: 20,
         // 第几页
         page: 1,
+        // 查询的标题
+        title:undefined
       },
       //  页面加载控制开关
       loading: false,
@@ -225,6 +227,7 @@ export default {
     },
     // 查询数据
     handQuery() {
+      this.listQuery.page=1
       this.getTableData();
     },
     // 改变上架下架状态

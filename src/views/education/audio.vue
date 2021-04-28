@@ -15,16 +15,18 @@
         </el-option>
       </el-select>
       <el-input
-        v-model="input"
+        v-model="listQuery.title"
         placeholder="请输入内容"
         style="width: 120px"
       ></el-input>
-      <el-button type="primary" icon="el-icon-search">搜索</el-button>
+      <el-button type="primary" icon="el-icon-search" @click="handleQuery"
+        >搜索</el-button
+      >
     </el-row>
     <!-- 表格 -->
     <el-row>
       <el-table
-        :data="tableData"
+        :data="filterTable"
         border
         style="width: 100%"
         v-loading="loading"
@@ -65,7 +67,8 @@
               @click="handleUpdate(scope.row)"
               >编辑</el-button
             >
-            <el-button type="primary" size="small">上架</el-button>
+            <el-button v-if="scope.row.status==0" type="primary" size="small" @click="handleStatus(scope.row,1)">上架</el-button>
+            <el-button v-if="scope.row.status==1" type="danger" size="small" @click="handleStatus(scope.row,0)">下架</el-button>
             <el-button
               type="primary"
               size="small"
@@ -198,7 +201,6 @@ export default {
         },
       ],
       value: "",
-      input: "",
 
       // 数据源
       tableData: [],
@@ -210,6 +212,7 @@ export default {
         limit: 20,
         // 第几页
         page: 1,
+        title: "",
       },
       // 控制加载显示
       loading: false,
@@ -238,6 +241,17 @@ export default {
   },
   mounted() {
     this.getTableData();
+  },
+ computed: {
+    filterTable() {
+      if (this.value == "") {
+        return this.tableData;
+      } else if (this.value == "选项1") {
+        return this.tableData.filter((item) => item.status == 1);
+      } else if (this.value == "选项2") {
+        return this.tableData.filter((item) => item.status == 0);
+      }
+    },
   },
   methods: {
     // 查询数据源
@@ -337,6 +351,14 @@ export default {
       });
     },
 
+    // 查询数据
+    handleQuery() {
+      (this.listQuery.page = 1), this.getTableData();
+    },
+    // 改变商品商家下架状态
+    handleStatus(row,id){
+      row.status=id
+    },
     //上传课程内容组件的钩子函数
     handleRemove(file, fileList) {
       console.log(file, fileList);
